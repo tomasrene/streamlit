@@ -7,7 +7,7 @@ from collections import Counter
 #############################################################################
 ##########                     MAIN FUNCTION                       ##########
 #############################################################################
-def shapley_value(data):
+def main(data):
     """
     Toma un dataframe con recorridos de usuarios que pueden terminar o no en conversion.
     A partir de eso, calcula las conversiones de cada canal segun el valor de Shapley.

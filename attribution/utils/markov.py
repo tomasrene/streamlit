@@ -5,7 +5,7 @@ import numpy as np
 #############################################################################
 ##########                     MAIN FUNCTION                       ##########
 #############################################################################
-def markov_chain(data, attributes = True):
+def main(data, attributes = True):
     '''
     Toma un dataframe con recorridos de usuarios que pueden terminar o no en conversion.
     A partir de eso, calcula un modelo de markov de orden 1 para atribuir las conversiones.

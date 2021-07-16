@@ -5,7 +5,7 @@ from collections import Counter
 #############################################################################
 ##########                     MAIN FUNCTION                       ##########
 #############################################################################
-def heuristic_models(data):
+def main(data):
     '''
     DESCRIPCION
     Toma un dataframe con recorridos de usuarios que pueden terminar o no en conversion.
