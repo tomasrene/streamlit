@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import markov
 import shapley
+from timer import Timer
 
 class AttributionModel:
     def __init__(self, data, window=30, touchpoints=8):
@@ -28,6 +29,13 @@ class AttributionModel:
         if markov_order not in [1,2,3,4]: # Validate markov order
             print("Invalid markov order")
             return
+        
+        caminos_markov = markov.obtener_caminos_markov(self.data)
+        print(f"Caminos de markov:\n{caminos_markov}\n")
+        
+        # obtener matriz de transicion de probabilidades
+        matriz_markov = markov.calcular_matriz_transicion(caminos_markov)
+        print(f"Matriz de markov:\n{matriz_markov}\n")
 
         attribution_markov = markov.main(self.data)
 
@@ -77,10 +85,10 @@ class AttributionModel:
         return data
 
 data = pd.read_csv("../data_basic.csv")
-test = AttributionModel(data)
-print("\nShapley")
-shapley = test.shapley()
-print(shapley)
-print("\nMarkov")
-markov = test.markov()
-print(markov)
+with Timer():
+    test = AttributionModel(data)
+    print("\nMarkov")
+    markov = test.markov()
+#print("\nShapley")
+#shapley = test.shapley()
+#print(shapley)

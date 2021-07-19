@@ -4,7 +4,7 @@ import numpy as np
 #############################################################################
 ##########                     MAIN FUNCTION                       ##########
 #############################################################################
-def main(data, attributes = True):
+def main(data):
     '''
     Toma un dataframe con recorridos de usuarios que pueden terminar o no en conversion.
     A partir de eso, calcula un modelo de markov de orden 1 para atribuir las conversiones.
@@ -32,13 +32,9 @@ def main(data, attributes = True):
     # obtener el diciconario del removal effect de cada canal
     removal_effect = calcular_removal_effect(matriz)
         
-    # atribuir segun los parametros de la funcion
-    if attributes:
-        removal_effect.update((x, y*np.sum(data['conversion'].tolist())) for x, y in removal_effect.items())
-    
-    # redondear valores
-    removal_effect = {k:round(v,4) for k,v in removal_effect.items()}
-    
+    # atribuir las conversiones y redondear
+    removal_effect.update((x, round(y*np.sum(data['conversion'].tolist()),4)) for x, y in removal_effect.items())
+        
     # pasar a data frame
     atribucion = pd.DataFrame.from_dict(removal_effect,orient='index',columns=["markov"])
     
