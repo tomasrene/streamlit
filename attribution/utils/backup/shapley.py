@@ -23,6 +23,9 @@ def main(data):
         Los canales como indice y una columna con las conversiones de cada uno.
     """
     
+    # chequear formato
+    data = formatear(data)
+    
     # calcular conversiones_totales
     conversiones_totales = sum(data.conversion)
 
@@ -48,13 +51,37 @@ def main(data):
 #############################################################################
 
 #############################################################################
+def formatear(data):
+    '''
+    Toma el dataset (lista o dataframe), valida los tipos de datos y transforma el tipo y nombre de las columnas
+    para optimizar el procesamiento
+    '''
+    
+    # definir el nombre de las columnas
+    columnas = ['usuario','canal','conversion']
+    
+    # formatear los datos segun el tipo
+    if isinstance(data,list):
+        data = pd.DataFrame(data,columns=columnas)
+    if isinstance(data,pd.DataFrame):
+        data.columns = columnas
+    else:
+        print("Error en el formato")
+        
+    # pasar usuario a numerico
+    data['usuario'] = pd.factorize(data['usuario'])[0]
+    
+    return data
+#############################################################################
+
+#############################################################################
 def obtener_coaliciones(data):
     '''
     Pasando un data frame de recorridos, devuelve las coaliciones posibles entre los canales unicos y
     todas las permutaciones de la gran coalicion de los n canales unicos.
     '''
     # obtener canales unicos
-    canales_unicos = list(sorted(set(data.channel)))
+    canales_unicos = list(sorted(set(data.canal)))
     
     # obtener las combinaciones posibles a partir de los canales unicos
     canales_combinados = ['>'.join(i) for i in combinar(canales_unicos)]
@@ -75,7 +102,7 @@ def obtener_caminos_shapley(data):
     para obtener los caminos de canales unicos de cada uno hasta la conversion.
     '''
     # agrupar por usuario, aplicar funcion y desanidar las listas
-    caminos = data.groupby('user').apply(funcion_list_shapley).dropna().explode()
+    caminos = data.groupby('usuario').apply(funcion_list_shapley).dropna().explode()
 
     # agrupar y contar ocurrencias de cada camino
     caminos = dict(Counter([i[0] for i in caminos.tolist()]))
@@ -99,7 +126,7 @@ def funcion_list_shapley(data):
     
     # iterar sobre las sesiones
     for i in data.itertuples():
-        caminos.append(i.channel)
+        caminos.append(i.canal)
         
         # si hay conversion, agregar los canales unicos anteriores y ordenados
         if i.conversion == 1:

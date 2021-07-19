@@ -1,3 +1,4 @@
+
 import pandas as pd
 import numpy as np
 
@@ -23,6 +24,9 @@ def main(data, attributes = True):
         Diccionario con los canales como keys y los valores como valor absoluto o proporcion
     
     '''
+    # validar input
+    data = formatear(data)
+
     # obtener caminos formateados para Markov
     caminos = obtener_caminos_markov(data)
     
@@ -46,6 +50,30 @@ def main(data, attributes = True):
 #############################################################################
 
 #############################################################################
+def formatear(data):
+    """
+    Valida el tipo de datos y asigna nombres a las columnas. Devuelve un dataframe.
+
+    """
+    
+    # definir el nombre de las columnas
+    columnas = ['usuario','canal','conversion']
+    
+    # formatear los datos segun el tipo
+    if isinstance(data,list):
+        data = pd.DataFrame(data,columns=columnas)
+    if isinstance(data,pd.DataFrame):
+        data.columns = columnas
+    else:
+        print("Error en el formato")
+        
+    # pasar usuario a numerico
+    data['usuario'] = pd.factorize(data['usuario'])[0]
+    
+    return data
+#############################################################################
+
+#############################################################################
 def obtener_caminos_markov(data):
     '''
     Toma un dataframe de sesiones, agrupa por usuario y aplica una funcion
@@ -63,7 +91,7 @@ def obtener_caminos_markov(data):
 
         # iterar sobre las sesiones
         for i in data.itertuples():
-            caminos.append(i.channel)
+            caminos.append(i.canal)
 
             # si hay conversion, agregar los canales anteriores
             if i.conversion == 1:
@@ -77,7 +105,7 @@ def obtener_caminos_markov(data):
         return final
     
     # aplicar la funcion a cada usuario
-    caminos = data.groupby('user',observed=True).apply(funcion_list_markov).explode().tolist()
+    caminos = data.groupby('usuario',observed=True).apply(funcion_list_markov).explode().tolist()
     
     return caminos
 #############################################################################
