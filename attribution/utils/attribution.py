@@ -36,7 +36,6 @@ class AttributionModel:
         ------
         attribution_markov: dataFrame
             dataFrame with channels as index and conversions attributed as column.
-
         """
         
         with Timer():
@@ -48,6 +47,8 @@ class AttributionModel:
             print("Calcular matriz transicion")
             matriz_markov = markov.calcular_matriz_transicion(caminos_markov)
         
+        # TODO: pass all the functions for Markov within this file
+
         return
 
     def shapley(self):
@@ -79,7 +80,7 @@ class AttributionModel:
             dataFrame with columns labeled.
 
         '''
-
+        # TODO: Improve validation
         columns = ['user','channel','conversion']
         
         if isinstance(data,list):
@@ -92,4 +93,10 @@ class AttributionModel:
         data['user'] = pd.factorize(data['user'])[0] # Convert to numeric
         
         return data
+
+    def generate_data(self,users,sessions,channels,conversions):
+
+        # TODO: generate function for sampling data
+        # Alternative: use Dirichlet for transition matrix
+        return
 
