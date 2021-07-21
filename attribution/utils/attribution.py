@@ -6,6 +6,19 @@ from timer import Timer
 
 class AttributionModel:
     def __init__(self, data, window=30, touchpoints=8):
+        """
+        Initialize a model based on beahvioural data to calculate different kinds of attribution.
+        The data should include user identification, channel dimension and whether it leaded to a conversion or not.
+
+        Parameters
+        ----------
+        data: dataFrame or list
+            Touchpoint data ordered by time with user and channel dimensions and boolean conversion (in that order).
+        window: int
+            Window time frame to take into account prior to the conversion (or last interaction).
+        touchpoints: int
+            Ammount of touchpoints taken into account for calculating attribution.
+        """
         self.data = self.formatting(data)
         self.window = window
         self.touchpoints = touchpoints
@@ -16,7 +29,7 @@ class AttributionModel:
 
         Parameters
         ----------
-        markov_order = int, default=1
+        markov_order: int, default=1
             The order of Markov wanted to apply. Between 1 and 4 for computability reasons.
 
         Return
