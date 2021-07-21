@@ -25,21 +25,17 @@ class AttributionModel:
             dataFrame with channels as index and conversions attributed as column.
 
         """
-
-        if markov_order not in [1,2,3,4]: # Validate markov order
-            print("Invalid markov order")
-            return
         
-        caminos_markov = markov.obtener_caminos_markov(self.data)
-        print(f"Caminos de markov:\n{caminos_markov}\n")
+        with Timer():
+            print("Obtener caminos")
+            caminos_markov = markov.obtener_caminos_markov(self.data)
         
         # obtener matriz de transicion de probabilidades
-        matriz_markov = markov.calcular_matriz_transicion(caminos_markov)
-        print(f"Matriz de markov:\n{matriz_markov}\n")
-
-        attribution_markov = markov.main(self.data)
-
-        return attribution_markov
+        with Timer():
+            print("Calcular matriz transicion")
+            matriz_markov = markov.calcular_matriz_transicion(caminos_markov)
+        
+        return
 
     def shapley(self):
         """
@@ -84,11 +80,3 @@ class AttributionModel:
         
         return data
 
-data = pd.read_csv("../data_basic.csv")
-with Timer():
-    test = AttributionModel(data)
-    print("\nMarkov")
-    markov = test.markov()
-#print("\nShapley")
-#shapley = test.shapley()
-#print(shapley)
