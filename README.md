@@ -1,5 +1,5 @@
-# MightyHive
-Repositorio con material para el equipo de Data Science de MightyHive.
+# BADS
+Repositorio con material para el equipo de Data Science de Buenos Aires.
 
 ## Attribution
 Librerias para trabajar con problemas de atribucion a partir de datos de GA (Markov, Shapley, heuristicos).
