@@ -4,9 +4,8 @@ import pandas as pd
 import os
 
 filename = 'data.csv'
-#dir = os.path.dirname(__file__)
-#path = os.path.join(dir, filename)
-path = os.sep.join([self.root, filename])
+dir = os.path.dirname(__file__)
+path = os.path.join(dir, filename)
 
 data = pd.read_csv(path).convert_dtypes()
 
