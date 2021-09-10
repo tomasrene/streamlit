@@ -1,8 +1,12 @@
 
 import streamlit as st
 import pandas as pd
+import os
 
-data = pd.read_csv("./data.csv").convert_dtypes()
+self.path = os.environ['PWD'] + os.sep
+
+#data = pd.read_csv("./data.csv").convert_dtypes()
+data = pd.read_csv(self.path + "data.csv").convert_dtypes()
 
 st.title("Heroku")
 st.header("Exploracion")
