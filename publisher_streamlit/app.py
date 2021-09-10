@@ -2,10 +2,13 @@
 import streamlit as st
 import pandas as pd
 import os
-dir = os.path.dirname(__file__)
-filename = os.path.join(dir, 'data.csv')
 
-data = pd.read_csv(filename).convert_dtypes()
+filename = 'data.csv'
+#dir = os.path.dirname(__file__)
+#path = os.path.join(dir, filename)
+path = os.sep.join([self.root, filename])
+
+data = pd.read_csv(path).convert_dtypes()
 
 st.title("Heroku")
 st.header("Exploracion")
